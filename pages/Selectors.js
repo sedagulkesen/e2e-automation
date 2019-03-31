@@ -16,4 +16,6 @@ export const SelectorLibrary ={
     basketItem: Selector('#myBasketListItem'),
 }
 
+var username= process.argv[4];
+var password= process.argv[5];
 

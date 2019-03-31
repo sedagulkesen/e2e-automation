@@ -7,16 +7,18 @@ export default async function () {
 }
 // Only continue with test when page is ready
 export var checkPageLoad = async t => {
-    await t.expect(SelectorLibrary.logo).ok();   
+    await t.expect(SelectorLibrary.logo).ok()
+    .getBrowserConsoleMessages();
 };
+
+var username= process.argv[4];
+var password= process.argv[5];
 
 fixture `Test preparation`
     .page `https://www.trendyol.com/`
     .beforeEach(checkPageLoad);  // specify the start page
 
-var username= process.argv[4];
-var password= process.argv[5];
-test('Check user can login', async t => {
+test('User is able to login', async t => {
     await t
         .expect(SelectorLibrary.closeButton).ok()
         .click(SelectorLibrary.closeButton)
@@ -27,15 +29,15 @@ test('Check user can login', async t => {
         .expect(SelectorLibrary.passwordInput).ok() //make sure we're in login screen
         .typeText(SelectorLibrary.emailInput,username)
         .typeText(SelectorLibrary.passwordInput,password)
-        .click(SelectorLibrary.loginButton);
+        .click(SelectorLibrary.loginButton); //user login to the system
 });
 
-test('Check categories can be clickable', async t => {
+test('User is able to click on all the categories', async t => {
     var tabHeader = Selector ('a.tab-header.badge-container');
     var count = await tabHeader.count;
     for (var i = 0; i < count; i++) {
         var category = Selector ('a.tab-header.badge-container').nth(i);
-        await t.click(category);
+        await t.click(category); // user clicks on all the categories
     }
 });
 
@@ -72,7 +74,7 @@ test('Go and choose random boutique', async t => {
         .expect(SelectorLibrary.productDetailsLabel).ok() //check the details of the product is visible or not 
         .expect(SelectorLibrary.sizeButton).ok()
         .click(SelectorLibrary.sizeButton)
-        .click(SelectorLibrary.chooseSize)
+        .click(SelectorLibrary.chooseSize)  // user choose the size of the product
         .click(SelectorLibrary.addtocartButton) // add product to the cart
         .click(SelectorLibrary.basketItem); // go my basket to check the items 
 });
