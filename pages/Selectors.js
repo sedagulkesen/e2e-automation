@@ -10,12 +10,9 @@ export const SelectorLibrary ={
     tabHeader: Selector ('a.tab-header.badge-container'),
     womenCategory: Selector('a.tab-header.badge-container').nth(0),  
     productDetailsLabel: Selector('.product-detail-info-box'),
-    addtocartButton: Selector ('.add-to-basket-button'),
-    sizeButton: Selector('div.btn-group'),
-    chooseSize:Selector('.text'),
+    sizeButton: Selector('div.addtobasket-box button'),
+    chooseSize:Selector('span.text'),
+    addtocartButton: Selector ('div#addToBasketButton'),
     basketItem: Selector('#myBasketListItem'),
 }
-
-var username= process.argv[4];
-var password= process.argv[5];
 
