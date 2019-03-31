@@ -1,13 +1,18 @@
 import { Selector, ClientFunction} from 'testcafe'; // first import testcafe selectors
 import {Selectors, SelectorLibrary} from './pages/Selectors';
-fixture `Login`
-    .page `https://www.trendyol.com/`;  // specify the start page
-
 
 export default async function () {
     const { error } = await t.getBrowserConsoleMessages();
     await t.expect(error[0]).notOk();
 }
+// Only continue with test when page is ready
+export var checkPageLoad = async t => {
+    await t.expect(SelectorLibrary.logo).ok();   
+};
+
+fixture `Test preparation`
+    .page `https://www.trendyol.com/`
+    .beforeEach(checkPageLoad);  // specify the start page
 
 var username= process.argv[4];
 var password= process.argv[5];
@@ -25,16 +30,16 @@ test('Check user can login', async t => {
         .click(SelectorLibrary.loginButton);
 });
 
-// test('Check categories can be clickable', async t => {
-//     var tabHeader = Selector ('a.tab-header.badge-container');
-//     var count = await tabHeader.count;
-//     for (var i = 0; i < count; i++) {
-//         var category = Selector ('a.tab-header.badge-container').nth(i);
-//         await t.click(category);
-//     }
-// });
+test('Check categories can be clickable', async t => {
+    var tabHeader = Selector ('a.tab-header.badge-container');
+    var count = await tabHeader.count;
+    for (var i = 0; i < count; i++) {
+        var category = Selector ('a.tab-header.badge-container').nth(i);
+        await t.click(category);
+    }
+});
 
-test('Go random category', async t => {
+test('Go and choose random category', async t => {
     var categories= Selector('a.tab-header.badge-container');
     var min = 0;
     var max = await categories.count;
@@ -43,7 +48,7 @@ test('Go random category', async t => {
     await t.click(choosenCategory);
 });
 
-test('Go random boutique', async t => {
+test('Go and choose random boutique', async t => {
     // choose random boutique
     var boutiques= Selector('img.bigBoutiqueImage');
     var min = 0;
@@ -65,6 +70,7 @@ test('Go random boutique', async t => {
     // check the details of the product
     await t
         .expect(SelectorLibrary.productDetailsLabel).ok() //check the details of the product is visible or not 
+        .expect(SelectorLibrary.sizeButton).ok()
         .click(SelectorLibrary.sizeButton)
         .click(SelectorLibrary.chooseSize)
         .click(SelectorLibrary.addtocartButton) // add product to the cart
