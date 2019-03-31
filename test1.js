@@ -7,8 +7,8 @@ export default async function () {
 }
 // Only continue with test when page is ready
 export var checkPageLoad = async t => {
-    await t.expect(SelectorLibrary.logo.visible).ok();
-    // .getBrowserConsoleMessages();
+    await (SelectorLibrary.logo).exists;
+    // await t.getBrowserConsoleMessages();
 };
 
 var username= process.argv[4];
@@ -21,25 +21,25 @@ fixture `Test preparation`
 test('User is able to login', async t => {
     await t
         .expect(SelectorLibrary.closeButton).ok()
-        .click(SelectorLibrary.closeButton)
-        .wait(2000)
-        .expect(SelectorLibrary.loginTab.visible).ok()
-        .click(SelectorLibrary.loginTab) //user clicks on login button 
-        .expect(SelectorLibrary.emailInput.visible).ok()
-        .expect(SelectorLibrary.passwordInput.visible).ok() //make sure we're in login screen
+        .click(SelectorLibrary.closeButton);
+        await (SelectorLibrary.loginTab).exists;
+        await t.click(SelectorLibrary.loginTab); //user clicks on login button 
+        await (SelectorLibrary.emailInput).exists;
+        await (SelectorLibrary.passwordInput).exists;
+        await t //make sure we're in login screen
         .typeText(SelectorLibrary.emailInput,username)
         .typeText(SelectorLibrary.passwordInput,password)
         .click(SelectorLibrary.loginButton); //user login to the system
 });
 
-// test('User is able to click on all the categories', async t => {
-//     var tabHeader = Selector ('a.tab-header.badge-container');
-//     var count = await tabHeader.count;
-//     for (var i = 0; i < count; i++) {
-//         var category = Selector ('a.tab-header.badge-container').nth(i);
-//         await t.click(category); // user clicks on all the categories
-//     }
-// });
+test('User is able to click on all the categories', async t => {
+    var tabHeader = Selector ('a.tab-header.badge-container');
+    var count = await tabHeader.count;
+    for (var i = 0; i < count; i++) {
+        var category = Selector ('a.tab-header.badge-container').nth(i);
+        await t.click(category); // user clicks on all the categories
+    }
+});
 
 test('Go and choose random boutique', async t => {
     //choose random category first
@@ -47,8 +47,7 @@ test('Go and choose random boutique', async t => {
     var min = 0;
     var max = await categories.count;
     var categoryNumber = Math.floor(Math.random() * (+max - +min)) + +min;
-    // var choosenCategory = Selector('a.tab-header.badge-container').nth(categoryNumber);
-    var choosenCategory = Selector('a.tab-header.badge-container').nth(6);
+    var choosenCategory = Selector('a.tab-header.badge-container').nth(categoryNumber);
     await t.click(choosenCategory);
     // choose random boutique
     var boutiques= Selector('img.bigBoutiqueImage');
@@ -56,18 +55,16 @@ test('Go and choose random boutique', async t => {
     var max = await boutiques.count;
     var randomBoutiqueNumber = Math.floor(Math.random() * (+max - +min)) + +min;
     var choosenBoutique = Selector('.butik-large-image').nth(randomBoutiqueNumber);
-    await t
-        .expect(SelectorLibrary.tabHeader.visible).ok()
-        .click(choosenBoutique);
+    await (SelectorLibrary.tabHeader).exists;
+    await t.click(choosenBoutique);
     // pick random product 
     var products= Selector('div .name');
     var min = 0;
     var max = await products.count;
     var randomProductNumber = Math.floor(Math.random() * (+max - +min)) + +min;
     var choosenProduct = Selector('div .name').nth(randomProductNumber);
-    await t
-        .expect(SelectorLibrary.tabHeader.visible).ok()
-        .click(choosenProduct);
+    await (SelectorLibrary).exists;
+    await t.click(choosenProduct);
     // check the details of the product
     await t
         .expect(SelectorLibrary.productDetailsLabel).ok()//check the details of the product is visible or not 
@@ -75,7 +72,6 @@ test('Go and choose random boutique', async t => {
     if(await (SelectorLibrary.sizeButton.exists)){
         await t
             .click(SelectorLibrary.sizeButton)
-            // .expect(SelectorLibrary.chooseSize.visible).ok()
             .click(SelectorLibrary.chooseSize);  // user choose the size of the product
     }
     await (SelectorLibrary.addtocartButton).exists;
@@ -84,7 +80,7 @@ test('Go and choose random boutique', async t => {
     await (SelectorLibrary.basketItem).exists;
     await t
     .click(SelectorLibrary.basketItem); // go my basket to check the items
-   
+    await (SelectorLibrary).exists;
 });
 
 
