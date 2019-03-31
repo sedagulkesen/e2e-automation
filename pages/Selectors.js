@@ -17,35 +17,3 @@ export const SelectorLibrary ={
 //credentials
 
 
-// async function checkImages(t){
-//     var count         = await images.count;
-//     var requestsCount = 0;
-//     var statuses      = [];
-
-//     var getRequestResult = ClientFunction(url => {
-//         return new Promise(resolve => {
-//             var xhr = new XMLHttpRequest();
-
-//             xhr.open('GET', url);
-
-//             xhr.onload = function () {
-//                 resolve(xhr.status);
-//             };
-
-//             xhr.send(null);
-//         });
-//     });
-
-//     for (var i = 0; i < count; i++) {
-//         var url = await images.nth(i).getAttribute('src');
-
-//         if (!url.startsWith('data')) {
-//             requestsCount++;
-//             statuses.push(await getRequestResult(url));
-//         }
-//     }
-//     await t.expect(requestsCount).eql(statuses.length);
-//     for (const status of statuses)
-//         await t.expect(status).eql(200);
-// }
-
